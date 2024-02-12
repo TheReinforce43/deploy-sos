@@ -8,9 +8,14 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from account.renderers import UserRenderer
 from account.serializers import UserRegistrationSerializer,UserLoginSerializer,TeacherRegistrationSerializer,StudentSerializer, EnrollmentModelSerializer,UserSerializer
 from django.contrib.auth import authenticate
-from .serializers import TeacherSerializer,CategorySerializer,StudentUserSerializer,ApprovedTeacherSerializer,AdminSerializer, CourseSerializer
+from .serializers import TeacherSerializer,CategorySerializer,StudentUserSerializer,ApprovedTeacherSerializer,AdminSerializer, CourseSerializer,StudentSerializer
 from rest_framework.generics import get_object_or_404, ListCreateAPIView, RetrieveUpdateDestroyAPIView,ListAPIView
 from rest_framework.permissions import AllowAny, IsAdminUser,IsAuthenticated
+
+from rest_framework.generics import GenericAPIView
+from rest_framework.mixins import ListModelMixin
+from . models import Teacher,CourseCategory,Course,CourseDetails,StudentModel,EnrollmentModel
+
 # Create your views here.
 
 def get_tokens_for_user(user):
@@ -187,3 +192,17 @@ class EnrollmentModelView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+        
+
+
+
+
+class StudentAPIView(GenericAPIView,ListModelMixin):
+    queryset =StudentModel.objects.all()
+    serializer_class=StudentUserSerializer
+
+    def get(self,request,*args,**kwargs):
+        return self.list(request,*args,**kwargs)
+

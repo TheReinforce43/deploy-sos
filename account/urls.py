@@ -1,5 +1,5 @@
 from django.urls import path
-from account.views import UserRegistration, UserLogin,TeacherApproveView, TeacherListCreateView, TeacherRetrieveUpdateDestroyView
+from account.views import UserRegistration, UserLogin,TeacherApproveView, TeacherListCreateView, TeacherRetrieveUpdateDestroyView,StudentAPIView
 from account.views import CategoryListCreateView,CategoryRetrieveUpdateDestroyView
 from account.views import TeacherUserListView,StudentUserListView,AdminListView
 from account.views import CourseListCreateView,CourseRetrieveUpdateDestroyView
@@ -12,7 +12,7 @@ urlpatterns = [
     # get all teacher users
     path('approved-teachers/', TeacherUserListView.as_view(), name='all-teachers'),
     # get all students users
-    path('students/', StudentUserListView.as_view(), name='all-teachers'),
+    # path('students/', StudentUserListView.as_view(), name='all-student'),
     path('admins/', AdminListView.as_view(), name='all-admins'),
 
 
@@ -47,5 +47,10 @@ urlpatterns = [
     path('sold-courses/', EnrollmentModelView.as_view(), name='all-sold-courses'),
     path('student-courses/<int:student_id>/', EnrollmentModelView.as_view(), name='student-bought-courses'),
     path('enroll-course/', EnrollmentModelView.as_view(), name='enroll-course'),
+
+    # student View 
+    path('student/', StudentAPIView.as_view(), name='student')
     
 ]
+
+
